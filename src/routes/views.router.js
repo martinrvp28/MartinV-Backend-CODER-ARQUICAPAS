@@ -4,6 +4,7 @@ import ProductManager from "../managers/productManager.js";
 import {login, register, errorLogin, errorRegister, profile} from "../controllers/views.controllers.js";
 import { isAuth } from "../middlewares/isAuth.js";
 
+
 const router = Router();
 
 const productManager = new ProductManager(__dirname + '/db/products.json');
@@ -29,8 +30,6 @@ router.get('/login',login);
 router.get('/register',register);
 router.get('/error-login',errorLogin);
 router.get('/error-register',errorRegister);
-
-router.get('/profile', isAuth, profile, );
 
 router.get('/logout', (req, res) => {
     try {

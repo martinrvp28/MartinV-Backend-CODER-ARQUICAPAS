@@ -49,4 +49,30 @@ export default class UserController extends Controllers {
     }
     
 
+    async addProdToUserCart (req,res,next) {
+        try {
+            const {_id} = req.user;
+            const {idProd} = req.params;
+            const {quantity} = req.params;
+            const newProdToUserCart = await userService.addProdToUserCart(_id, idProd, Number(quantity));
+            if (!newProdToUserCart) res.status(404).json({msg:'Error adding product'});
+            res.status(200).json(newProdToUserCart);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async getByIdDTO (req, res, next) {
+        try {
+            const {id} = req.params;
+            const item = await this.service.getByIdDTO(id);
+            if (!item) res.status(404).json({msg:'Item not Found'});
+            else  res.status(200).json(item);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
 }

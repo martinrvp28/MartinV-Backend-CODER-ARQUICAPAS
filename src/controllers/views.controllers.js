@@ -1,3 +1,8 @@
+import UserDao from "../persistence/daos/mongodb/user.dao.js";
+import UserRepository from "../persistence/repository/users/users.repository.js";
+
+const userDao = new UserDao();
+const userRepository = new UserRepository();
 
 
 export const register = (req,res) => {
@@ -16,6 +21,21 @@ export const errorLogin = (req,res) => {
     res.render('errorLogin');
 }
 
-export const profile = (req,res) => {
-    res.render('profile');
+export const profile = async (req, res) => {
+    try {
+        const user = await userRepository.getByIdDTO(req.session.passport.user);
+        
+        const  userData = {
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email,
+            role: user.role,
+            age: user.age
+        }
+
+        res.render('profile', { userData });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error al obtener el perfil del usuario');
+    }
 }

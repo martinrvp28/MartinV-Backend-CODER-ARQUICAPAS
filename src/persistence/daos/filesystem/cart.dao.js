@@ -4,7 +4,7 @@ import ProductManager from "./productManager.js";
 
 const productManager = new ProductManager(__dirname + '/src/db/products.json');
 
-export default class CartManager{
+export default class CartDaoFs{
     constructor(path){
         this.path = path;
     }
@@ -93,7 +93,6 @@ async addProductToCart(idCart,idProd) {
                 })
 
                 await fs.promises.writeFile(this.path, JSON.stringify(newCartFile));
-            console.log(cartsFile)
             return cartsFile;
             }
         } else {

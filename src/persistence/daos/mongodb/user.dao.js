@@ -1,6 +1,6 @@
 import MongoDao from "./mongo.dao.js";
 import { UserModel } from "./models/user.model.js";
-import { createHash, isValidPassword } from "../../utils.js";
+import { createHash, isValidPassword } from "../../../utils.js";
 
 export default class UserDao extends MongoDao {
     constructor(){
@@ -52,4 +52,21 @@ export default class UserDao extends MongoDao {
             console.log(error);
         }
     }
+
+    async addProdToUserCart(userId, prodId, quantity) {
+        try {
+            const user = await UserModel.findById(userId);
+            if (!user) return false;
+            user.cart.push({
+                product: prodId,
+                quantity
+            })
+            user.save();
+            return user;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
 }

@@ -1,8 +1,10 @@
 import Controllers from "./class.controllers.js";
 import CartService from "../services/cart.services.js";
 import mongoose, { isValidObjectId } from "mongoose";
+import TicketService from "../services/ticket.services.js";
 
 const cartService = new CartService();
+const ticketService = new TicketService();
 
 export default class CartController extends Controllers {
     constructor(){
@@ -87,6 +89,22 @@ export default class CartController extends Controllers {
     
     }
 
+    async purchase (req,res,next) {
+
+        try {
+            const {idUser} = req.params;
+
+            await ticketService.generateTicket(idUser);
+            
+            const cart = await cartService.purchase(idUser);
+            if (!cart) res.status(404).json({msg:'Cart or User not found'});
+            else res.json(cart);
+            
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
 
 
 }

@@ -33,7 +33,7 @@ const mongoStoreOptions = {
     }
 }
 
-import './daos/mongodb/connection.js';
+import './persistence/daos/mongodb/connection.js';
 import userSession from './middlewares/userSession.js';
 
 const productManager = new ProductManager(__dirname + '/db/products.json');

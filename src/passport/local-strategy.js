@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import UserDao from "../daos/mongodb/user.dao.js";
+import UserDao from "../persistence/daos/mongodb/user.dao.js";
 const userDao = new UserDao();
 
 const strategyOptions = {
@@ -32,6 +32,9 @@ const login = async (req, email, password, done) => {
         else {
 
             req.session.isAuthenticated = true;
+            req.session.user = userLogin;
+            req.user = userLogin;
+
             return done(null, userLogin); 
         }       
     } catch (error) {

@@ -7,7 +7,13 @@ const userSchema = new Schema({
     age: {type: Number, required: true, default:0},
     password: {type: String, required: true},
     role: {type: String, default: "usuario"},
-    isGitHub: {type: Boolean, required: true, default: false}
+    isGitHub: {type: Boolean, required: true, default: false},
+    cart: [
+        {
+            product: String,
+            quantity: Number,
+        }
+    ]
 });
 
 export const UserModel = model('users', userSchema);
