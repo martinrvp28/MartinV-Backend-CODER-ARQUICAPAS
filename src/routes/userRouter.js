@@ -4,6 +4,8 @@ import { isAuth } from "../middlewares/isAuth.js";
 import userSession from "../middlewares/userSession.js";
 import {profile} from "../controllers/views.controllers.js";
 
+
+
 const userController = new UserController();
 
 
@@ -29,20 +31,8 @@ router.post('/add/:idProd/quantity/:quantity', isAuth, userController.addProdToU
 router.get('/profile', userSession, isAuth, profile);
 
 
-router.get('/ver-sesion', (req, res) => {
 
-    console.log('Información de la sesión impresa en la consola', req.locals.user);
-    
-});
 
-router.get('/ver-auth', (req, res) => {
-    if (req.session.passport.user) {
-      // El usuario está autenticado
-      res.send('Usuario autenticado');
-    } else {
-      // El usuario no está autenticado
-      res.send('Usuario no autenticado');
-    }
-  });
+
 
 export default router;

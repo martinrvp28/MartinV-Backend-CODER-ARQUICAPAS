@@ -6,6 +6,11 @@ import TicketService from "../services/ticket.services.js";
 const cartService = new CartService();
 const ticketService = new TicketService();
 
+
+import { HttpResponse } from "../utils/http.response.js";
+const httpResponse = new HttpResponse();
+import error from "../utils/errors.dictionary.js"
+
 export default class CartController extends Controllers {
     constructor(){
         super(cartService);
@@ -16,9 +21,9 @@ export default class CartController extends Controllers {
         try {
             const obj = {products:[]}
             const response = await cartService.create(obj);
-            res.status(200).json(response);
+            return httpResponse.Ok(res, response);
         } catch (error) {
-            next(error.message);
+            next(error);
         }
     }
     
@@ -27,10 +32,10 @@ export default class CartController extends Controllers {
         try {
             const {idCart, idProduct} = req.params;
             const addCart = await cartService.addProductToCart(idCart,idProduct);
-            if (!addCart) res.status(404).json({msg:'Cart not found ACA'});
-            else res.json(addCart);
+            if (!addCart) return httpResponse.NotFound(res, error.CART_NOT_FOUND);
+            else return httpResponse.Ok(res, addCart);
         } catch (error) {
-            next(error.message);
+            next(error);
         }
     
     }
@@ -40,11 +45,11 @@ export default class CartController extends Controllers {
         try {
             const {idCart, idProduct} = req.params;
             const del = await cartService.deleteProductFromCart(idCart,idProduct);
-            if (!del) res.status(404).json({msg:'Cart or Product not found'});
-            else res.json(del);
+            if (!del) return httpResponse.NotFound(res, error.CART_OR_PROD_NF);
+            else return httpResponse.Ok(res, del);
     
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
     
@@ -55,10 +60,10 @@ export default class CartController extends Controllers {
             const obj = req.body;
     
             const add = await cartService.updateCart(idCart,obj);
-            if (!add) res.status(404).json({msg:'Cart not found'});
-            else res.json(add);
+            if (!add) return httpResponse.NotFound(res, error.CART_NOT_FOUND);
+            else return httpResponse.Ok(res, add);
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
     
@@ -69,10 +74,10 @@ export default class CartController extends Controllers {
     
             const upd = await cartService.updateQuantity(idCart, idProduct, objQ);
             
-            if (!upd) res.status(404).json({msg:'Cart or Product not found'});
-            else res.json(upd);
+            if (!upd) return httpResponse.NotFound(res, error.CART_OR_PROD_NF);
+            else return httpResponse.Ok(res, upd);
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
     
@@ -81,10 +86,10 @@ export default class CartController extends Controllers {
         try {
             const {idCart} = req.params;
             const del = await cartService.emptyCart(idCart);
-            if (!del) res.status(404).json({msg:'Cart  not found'});
-            else res.json(del);
+            if (!del) return httpResponse.NotFound(res, error.CART_NOT_FOUND);
+            else return httpResponse.Ok(res, del);
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     
     }
@@ -97,15 +102,14 @@ export default class CartController extends Controllers {
             await ticketService.generateTicket(idUser);
             
             const cart = await cartService.purchase(idUser);
-            if (!cart) res.status(404).json({msg:'Cart or User not found'});
-            else res.json(cart);
+            if (!cart) return httpResponse.NotFound(res, error.CART_OR_USER_NF);
+            else return httpResponse.Ok(res, cart);
             
         } catch (error) {
-            console.log(error);
+        next(error);
         }
 
     }
-
 
 }
 

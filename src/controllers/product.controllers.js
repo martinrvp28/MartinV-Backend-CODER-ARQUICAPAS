@@ -62,8 +62,9 @@ export default class ProductController extends Controllers {
             };
     
             res.render('products', {response});
+
         } catch (error) {
-            next(error.message);
+            next(error);
         }
     }
 

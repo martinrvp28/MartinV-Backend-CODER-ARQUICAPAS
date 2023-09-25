@@ -1,6 +1,9 @@
 import Controllers from "./class.controllers.js"
 import TicketService from "../services/ticket.services.js"
 
+import { HttpResponse } from "../utils/http.response.js";
+const httpResponse = new HttpResponse();
+
 const ticketService = new TicketService();
 
 export default class TicketController extends Controllers {
@@ -12,10 +15,10 @@ export default class TicketController extends Controllers {
         try {
             const { _id} = req.user;
             const ticket = await ticketService.generateTicket(_id);
-            if (!ticket) res.status(404).json({msg:'Ticket user not found'});
-            res.status(200).json(ticket)
+            if (!ticket) return httpResponse.NotFound(res, `Ticket ${error.USER_NOT_FOUND}`);
+            return httpResponse.Ok(res, ticket);
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
 

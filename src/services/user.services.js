@@ -18,7 +18,7 @@ export default class UserService extends Services {
         try {
             return await userDao.register(user);
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message);
         }
     }
 
@@ -26,7 +26,7 @@ export default class UserService extends Services {
         try {
             return await userDao.login(user);
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message);
         }
     }
 
@@ -36,7 +36,7 @@ export default class UserService extends Services {
             if (!existProd) return false;
             return userDao.addProdToUserCart(userId,prodId, quantity);
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message);
         }
     }
 
@@ -46,7 +46,7 @@ export default class UserService extends Services {
             if (!prod) return false;
             else return prod;
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message);
         }
     }
 

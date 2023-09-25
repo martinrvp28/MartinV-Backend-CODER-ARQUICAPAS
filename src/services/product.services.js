@@ -15,7 +15,7 @@ export default class ProductService extends Services {
             const response = await prodDao.getAllProducts(limit,sort,page,query,queryValue);
             return response;
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message);
         }
     }
 }

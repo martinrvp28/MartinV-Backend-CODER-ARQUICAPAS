@@ -20,7 +20,7 @@ export default class CartService extends Services {
             const response = await cartDao.addProductToCart(cartId,prodId);
             return response;
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message);
         }
     }
     
@@ -29,7 +29,7 @@ export default class CartService extends Services {
             const response = await cartDao.deleteProductFromCart(idCart,idProduct);
             return response;
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message);
         }
     }
     
@@ -38,7 +38,7 @@ export default class CartService extends Services {
             const response = await cartDao.updateCart(idCart,obj);
             return response;
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message);
         }
     }
     
@@ -47,7 +47,7 @@ export default class CartService extends Services {
             const response = await cartDao.updateQuantity(idCart,idProduct,objQ);
             return response;
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message);
         }
     }
     
@@ -56,7 +56,7 @@ export default class CartService extends Services {
             const response = await cartDao.emptyCart(idCart);
             return response;
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message);
         }
     }
 
@@ -87,7 +87,7 @@ export default class CartService extends Services {
             return user;
     
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message);
         }
     }
 }

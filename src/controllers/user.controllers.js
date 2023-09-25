@@ -1,6 +1,9 @@
 import Controllers from "./class.controllers.js";
 import UserService from "../services/user.services.js";
 
+import { HttpResponse } from "../utils/http.response.js";
+const httpResponse = new HttpResponse();
+import error from "../utils/errors.dictionary.js"
 const userService = new UserService();
 
 export default class UserController extends Controllers {
@@ -10,10 +13,9 @@ export default class UserController extends Controllers {
 
     async registerUser (req,res){
         try {
-            res.json({msg: 'Register Ok', session: req.session});
-    
+            return httpResponse.Ok(res, {msg: 'Register Ok', session: req.session});    
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     };
     
@@ -26,7 +28,7 @@ export default class UserController extends Controllers {
             res.redirect('/login');
             
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
     
@@ -44,7 +46,7 @@ export default class UserController extends Controllers {
                 }
             })
         } catch (error) {
-            console.log(error)
+            next(error);
         }
     }
     
@@ -55,10 +57,10 @@ export default class UserController extends Controllers {
             const {idProd} = req.params;
             const {quantity} = req.params;
             const newProdToUserCart = await userService.addProdToUserCart(_id, idProd, Number(quantity));
-            if (!newProdToUserCart) res.status(404).json({msg:'Error adding product'});
-            res.status(200).json(newProdToUserCart);
+            if (!newProdToUserCart) return httpResponse.NotFound(res, error.ERROR_ADD_PROD);  
+            return httpResponse.Ok(res, newProdToUserCart);  
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
 
@@ -66,11 +68,11 @@ export default class UserController extends Controllers {
         try {
             const {id} = req.params;
             const item = await this.service.getByIdDTO(id);
-            if (!item) res.status(404).json({msg:'Item not Found'});
-            else  res.status(200).json(item);
+            if (!item) return httpResponse.NotFound(res, error.USER_NOT_FOUND);  
+            else  return httpResponse.Ok(res, item); 
 
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
 

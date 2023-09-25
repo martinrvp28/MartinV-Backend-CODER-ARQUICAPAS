@@ -46,7 +46,6 @@ app.use(json())
     .use(urlencoded({extended: true}))
     .use(express.static(__dirname + '/public'))
     .use(morgan('dev'))
-    .use(errorHandler)
 
     .use(cookieParser())
     .use(session(mongoStoreOptions))
@@ -59,8 +58,8 @@ app.use(json())
     .set('views', __dirname + '/views')
     .set('view engine', 'handlebars')
 
-
     app.use('/', mainRouter.getRouter());
+    app.use(errorHandler);
 
 const PORT = config.PORT ;
 

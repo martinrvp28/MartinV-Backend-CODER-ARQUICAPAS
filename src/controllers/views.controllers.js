@@ -4,6 +4,9 @@ import UserRepository from "../persistence/repository/users/users.repository.js"
 const userDao = new UserDao();
 const userRepository = new UserRepository();
 
+import { HttpResponse } from "../utils/http.response.js";
+const httpResponse = new HttpResponse();
+
 
 export const register = (req,res) => {
     res.render('register')
@@ -35,7 +38,7 @@ export const profile = async (req, res) => {
 
         res.render('profile', { userData });
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Error al obtener el perfil del usuario');
+        next(error);
+        return httpResponse.ServerError(res, 'Error al recibir el perfil del usuario');
     }
 }

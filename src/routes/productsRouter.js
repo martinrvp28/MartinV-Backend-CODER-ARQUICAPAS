@@ -4,6 +4,8 @@ import { __dirname } from "../utils.js";
 import {upload} from "../middlewares/multerThumbnail.js";
 import { checkAdmin } from "../middlewares/checkAdmin.js";
 
+import { createProductsMock } from "../controllers/mockProducts.controller.js";
+
 import ProductController from "../controllers/product.controllers.js";
 
 const productController = new ProductController();
@@ -11,6 +13,8 @@ const productController = new ProductController();
 const router = Router();
 
 const productManager = new ProductManager(__dirname + '/db/products.json');
+
+router.get('/mockingproducts', createProductsMock);
 
 router.get('/', productController.getAllProducts.bind(productController));
 
@@ -21,6 +25,9 @@ router.post('/', checkAdmin, productController.create.bind(productController));
 router.put('/:id', checkAdmin, productController.update.bind(productController));
 
 router.delete('/:id', checkAdmin, productController.delete.bind(productController));
+
+
+
 
 
 
