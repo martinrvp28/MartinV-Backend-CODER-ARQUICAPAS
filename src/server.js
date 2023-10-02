@@ -18,6 +18,8 @@ import './passport/github-strategy.js'
 
 import config from '../config.js';
 
+import { logger } from './utils/logger.js';
+
 const mongoStoreOptions = {
     store: MongoStore.create({
         mongoUrl: config.MONGO_ATLAS_URL,
@@ -64,7 +66,7 @@ app.use(json())
 const PORT = config.PORT ;
 
 const httpServer = app.listen(PORT, ()=> {
-    console.log(`server ok en puerto ${PORT}`)
+    logger.info(`Server running on port ${PORT}`)
 });
 
 const socketServer = new Server(httpServer);
@@ -75,7 +77,7 @@ socketServer.on('connection', async (socket) => {
     socket.emit('allProducts', await productManager.getProducts());
 
     socket.on('disconnect', () =>{
-        console.log(`Cliente Desconectado: ${socket.id}`)
+        logger.info(`Cliente Desconectado: ${socket.id}`)
     })
 
     socket.on('newProduct', async (prod) => {

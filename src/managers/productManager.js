@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { __dirname } from '../utils.js';
 const pathFile = __dirname + '/db/products.json';
+import { logger } from '../utils/logger.js';
 
 export default class ProductManager{
     constructor(path){
@@ -28,9 +29,9 @@ export default class ProductManager{
                 await fs.promises.writeFile(this.path, JSON.stringify(productsFile))
 
             } else if (!this.#validateFields(product)) {
-                console.log(`Error al agregar el producto ${product.title}, por favor verifique los campos del mismo.`);
+                logger.error(`Error al agregar el producto ${product.title}, por favor verifique los campos del mismo.`);
             } else {
-                console.log(`Error al agregar el producto ${product.title}, ya existe un producto con el mismo codigo.`)
+                logger.error(`Error al agregar el producto ${product.title}, ya existe un producto con el mismo codigo.`)
             }
 
             
@@ -51,7 +52,7 @@ export default class ProductManager{
             return maxId
             
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         }
 
     }
@@ -67,7 +68,7 @@ export default class ProductManager{
             }
             
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         }
 
     }
@@ -81,13 +82,13 @@ export default class ProductManager{
             })
     
             if (!prod) {
-                console.log("Product not found")
+                logger.warning(error);
             } else {
                 return prod;
             }
             
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         }
 
     }
@@ -114,13 +115,13 @@ export default class ProductManager{
                 await fs.promises.writeFile(this.path, JSON.stringify(newProductFiles))
 
             } else {
-                console.log('Product not found')
+                logger.warning('Product not found')
             }
 
             
     
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             
         }
 
@@ -137,11 +138,11 @@ export default class ProductManager{
                 })
                 await fs.promises.writeFile(this.path, JSON.stringify(newFiles))
             } else {
-                console.log(`Error al eliminar el producto, no existe ningun producto con el id ${i}`);
+                logger.error(`Error al eliminar el producto, no existe ningun producto con el id ${i}`);
             }
 
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         }
     }
 

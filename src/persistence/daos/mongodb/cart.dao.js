@@ -1,5 +1,6 @@
 import MongoDao from "./mongo.dao.js";
 import { CartModel } from "./models/cart.model.js";
+import { logger } from "../../../utils/logger.js";
 
 export default class CartDaoMongoDB extends MongoDao {
     constructor() {
@@ -12,7 +13,7 @@ export default class CartDaoMongoDB extends MongoDao {
             const response = await CartModel.findById(id).lean().populate('products.id');
             return response;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         }
     }
 
@@ -46,7 +47,7 @@ export default class CartDaoMongoDB extends MongoDao {
 
 
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         }
     }
 
@@ -68,7 +69,7 @@ export default class CartDaoMongoDB extends MongoDao {
             return carrito;
 
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         }
     
     }
@@ -87,7 +88,7 @@ export default class CartDaoMongoDB extends MongoDao {
             return updatedCart;
 
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         }
     }
 
@@ -112,7 +113,7 @@ export default class CartDaoMongoDB extends MongoDao {
             return cart;
             
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         }
 }
 
@@ -127,7 +128,7 @@ export default class CartDaoMongoDB extends MongoDao {
             await cart.save();
             return cart;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         }
 
     }

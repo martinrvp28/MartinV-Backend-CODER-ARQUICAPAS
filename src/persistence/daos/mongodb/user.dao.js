@@ -20,7 +20,7 @@ export default class UserDao extends MongoDao {
             }
             else return false;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         }
     }
 
@@ -37,7 +37,7 @@ export default class UserDao extends MongoDao {
             } 
             else return false;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         }
         
     }
@@ -49,7 +49,7 @@ export default class UserDao extends MongoDao {
                 return userExist;
             } else return false;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         }
     }
 
@@ -64,7 +64,7 @@ export default class UserDao extends MongoDao {
             user.save();
             return user;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         }
     }
 

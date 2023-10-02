@@ -64,22 +64,17 @@ export default class CartService extends Services {
         try {
             const user = await userDao.getById(id);
 
-            console.log('Este es el user de purchase', user);
             if(!user) return false;
 
             const cart = user.cart;
-            console.log('Este es el cart de purchase', cart);
             for (const item of cart) {
-                console.log('Este es el id del producto del cart de purchase', item.product);
                 const product = await productDao.getById(item.product);
-                console.log('Este es el product de purchase', product);
     
                 if (product.stock >= item.quantity) {
 
                     product.stock -= item.quantity;
                     await product.save();
                     user.cart = user.cart.filter(cartItem => cartItem.product !== item.product);
-                    console.log('Este es el cart modificado de purchase', user.cart);
                     await user.save();
                 }
             }

@@ -21,7 +21,7 @@ const registerOrLogin = async (accessToken, refreshToken, profile,done) => {
         password:'',
         isGitHub: true
     });
-
+    logger.info("User registered successfully with GitHub")
     return done(null, newUser);
 
 }

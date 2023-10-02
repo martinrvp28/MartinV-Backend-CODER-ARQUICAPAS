@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { __dirname } from '../utils.js';
 import ProductManager from "./productManager.js";
+import { logger } from '../../../utils/logger.js';
 
 const productManager = new ProductManager(__dirname + '/src/db/products.json');
 
@@ -20,7 +21,7 @@ async getAllCarts(){
         }
         
     } catch (error) {
-        console.log(error);
+        logger.error(error);
     }
 };
 
@@ -38,7 +39,7 @@ async createCart(){
         return cart;
 
     } catch (error) {
-        console.log(error);
+        logger.error(error);
     }
     
 }
@@ -50,15 +51,13 @@ async getCartById(id) {
         const cart = carts.find((p) => p.id === id);
 
         if (!cart) {
-            console.log("Cart not found")
             return false;
         } else {
-            console.log(cart);
             return cart;
         }
         
     } catch (error) {
-        console.log(error);
+        logger.error(error);
     }
 }
 
@@ -100,7 +99,7 @@ async addProductToCart(idCart,idProd) {
         }
 
     } catch (error) {
-        console.log(error);
+        logger.error(error);
     }
 }
 
@@ -115,7 +114,7 @@ async #getMaxId(){
         return maxId;
         
     } catch (error) {
-        console.log(error);
+        logger.error(error);
     }
 
 }

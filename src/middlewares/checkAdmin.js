@@ -12,7 +12,7 @@ export const checkAdmin = async (req,res,next) => {
         res.status(401).send({msg: 'You are not Administrator'});
         
     } catch (error) {
-        console.log(error)
+        logger.error(error);
     }
     
 }

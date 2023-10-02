@@ -1,6 +1,7 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import UserDao from "../persistence/daos/mongodb/user.dao.js";
+import { logger } from "../utils/logger.js";
 const userDao = new UserDao();
 
 const strategyOptions = {
@@ -15,9 +16,10 @@ const register = async (req, email, password, done) => {
         const user = await userDao.getByEmail(email);
         if (user) return done(null, false);
         const newUser = await userDao.register(req.body);
+        logger.info("User registered successfully")
         return done(null, newUser);
     } catch (error) {
-        console.log(error);
+        logger.error(error);
     }
 
 }
@@ -35,10 +37,11 @@ const login = async (req, email, password, done) => {
             req.session.user = userLogin;
             req.user = userLogin;
 
+            logger.info("User logged successfully")
             return done(null, userLogin); 
         }       
     } catch (error) {
-        console.log(error)
+        logger.error(error);
     }
 
 };

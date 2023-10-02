@@ -1,5 +1,6 @@
 import MongoDao from "./mongo.dao.js";
 import { ProductModel } from "./models/product.model.js";
+import { logger } from "../../../utils/logger.js";
 
 export default class ProductDaoMongoDB extends MongoDao {
     constructor() {
@@ -45,7 +46,7 @@ export default class ProductDaoMongoDB extends MongoDao {
             return response;
 
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         }
     }
 
@@ -70,7 +71,7 @@ export default class ProductDaoMongoDB extends MongoDao {
                 throw new Error('Ya existe un producto con el mismo código');
             }
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         }
     }
 

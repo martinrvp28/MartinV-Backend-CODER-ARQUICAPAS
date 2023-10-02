@@ -15,7 +15,7 @@ router.get('/', async (req,res) => {
         const products = await service.getAll();
         res.render('home', {products})
     } catch (error) {
-        console.log(error.message);
+        logger.error(error.message);
     }
     
 });
