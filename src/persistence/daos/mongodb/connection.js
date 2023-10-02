@@ -6,5 +6,5 @@ try {
     await mongoose.connect(config.MONGO_ATLAS_URL);
     logger.info('Conectado a la base de datos de MongoDb!');
 } catch (error) {
-    logger.error(error);
+    logger.fatal(error);
 }

@@ -4,6 +4,8 @@ import ProductManager from "../managers/productManager.js";
 import {login, register, errorLogin, errorRegister, profile} from "../controllers/views.controllers.js";
 import { isAuth } from "../middlewares/isAuth.js";
 
+import { logger } from "../utils/logger.js";
+
 
 const router = Router();
 
@@ -34,6 +36,7 @@ router.get('/error-register',errorRegister);
 router.get('/logout', (req, res) => {
     try {
         req.session.destroy();
+        logger.info('User logged out');
         res.redirect('/login');
     } catch (error) {
         
