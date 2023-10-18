@@ -20,6 +20,10 @@ import config from '../config.js';
 
 import { logger } from './utils/logger.js';
 
+import swaggerUI from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
+import { info } from './docs/info.js';
+
 const mongoStoreOptions = {
     store: MongoStore.create({
         mongoUrl: config.MONGO_ATLAS_URL,
@@ -42,7 +46,8 @@ const productManager = new ProductManager(__dirname + '/db/products.json');
 
 const app = express();
 
-
+const specs = swaggerJSDoc(info);
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs));
 
 app.use(json())
     .use(urlencoded({extended: true}))

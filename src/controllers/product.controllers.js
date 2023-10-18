@@ -11,7 +11,6 @@ export default class ProductController extends Controllers {
 
     async getAllProducts (req, res, next)  {
         try {
-    
             const limit = req.query.limit ? req.query.limit : 10;
             const sort = req.query.sort;
             const page = req.query.page ? req.query.page : 1;
@@ -60,7 +59,7 @@ export default class ProductController extends Controllers {
                 prevLink: prevLink ? prevLink : null,
                 nextLink: nextLink ? nextLink : null
             };
-    
+            
             res.render('products', {response});
 
         } catch (error) {

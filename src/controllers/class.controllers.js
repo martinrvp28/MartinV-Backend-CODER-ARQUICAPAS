@@ -19,8 +19,8 @@ export default class Controllers {
     async getById(req,res,next) {
         try {
             
-            const {idCart} = req.params;
-            const item = await this.service.getById(idCart);
+            const {id} = req.params;
+            const item = await this.service.getById(id);
     
             if(!item) return httpResponse.NotFound(res, 'Controller item not found');
             else return httpResponse.Ok(res, {item});
@@ -41,11 +41,12 @@ export default class Controllers {
 
     async update(req,res,next) {
         try {
-            const {idCart} = req.params;
-            const item = await this.service.getById(idCart);
+            const {id} = req.params;
+            const item = await this.service.getById(id);
             if (!item) return httpResponse.NotFound(res, 'Controller item update not found');
             else {
                 const itemUpdate = await this.service.update(id, req.body);
+                console.log(itemUpdate)
                 return httpResponse.Ok(res, {itemUpdate});
             }
         } catch (error) {
@@ -56,6 +57,7 @@ export default class Controllers {
     async delete(req,res,next) {
         try {
             const {id} = req.params;
+            console.log(id);
             const item = await this.service.getById(id);
             if (!item) return httpResponse.NotFound(res, 'Controller item delete not found');
             else {
